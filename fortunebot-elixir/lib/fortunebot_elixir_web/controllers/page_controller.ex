@@ -17,8 +17,14 @@ defmodule FortunebotWeb.PageController do
     render conn, "thanks.html"
   end
 
-  def slack(conn, _params) do
-    text conn, "Ok"
+  def slack(conn, params) do
+    return_text = cond do
+      params["challenge"] != nil and params["type"] == "url_verification" ->
+        params["challenge"]
+      true ->
+        "Ok"
+    end
+    text conn, return_text
   end
 
 end

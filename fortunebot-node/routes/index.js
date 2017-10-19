@@ -23,6 +23,10 @@ router.get('/thanks', function(req, res, next) {
 });
 
 router.post('/slack', function(req, res, next) {
+  if (req.body.challenge && req.body.type === "url_verification") {
+  	return res.send(req.body.challenge);
+  }
+
   res.send("Ok");
 });
 
