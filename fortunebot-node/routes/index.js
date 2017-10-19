@@ -9,11 +9,17 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/install', function(req, res, next) {
-  res.render('install', { title: 'FortuneBot' });
+  res.render('install', { title: 'FortuneBot', clientId: process.env.CLIENT_ID});
 });
 
 router.get('/thanks', function(req, res, next) {
-  res.render('thanks', { title: 'Thanks!'});
+  botService.auth(req.query.code, function (err, resService) {
+    if (err) {
+      throw err;
+    }
+    localDbService.setBotAuthInfo(resService.body);
+    res.render('thanks', { title: 'Thanks!'});
+  });
 });
 
 router.post('/slack', function(req, res, next) {

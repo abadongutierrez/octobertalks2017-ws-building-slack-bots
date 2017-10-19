@@ -6,10 +6,14 @@ defmodule FortunebotWeb.PageController do
   end
 
   def install(conn, _params) do
-    render conn, "install.html"
+    render conn, "install.html", client_id: System.get_env("CLIENT_ID")
   end
 
-  def thanks(conn, _params) do
+  def thanks(conn, params) do
+    if params["code"] do
+      {:ok, response} = Fortunebot.Bot.auth(params["code"])
+      Fortunebot.LocalDb.set_bot_auth_info(response.bot)
+    end
     render conn, "thanks.html"
   end
 
