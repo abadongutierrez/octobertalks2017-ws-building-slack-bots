@@ -3,7 +3,10 @@ package com.nearsoft.slackbot.fortunebot.domain.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nearsoft.slackbot.fortunebot.domain.BotAuthInfo;
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -47,7 +50,11 @@ public class BotService {
                 event.isMessageType() &&
                 !event.isTextEmpty() &&
                 !isEventFromBotUser(event)) {
-            echoText(event);
+            if (event.getText().contains("fortune")) {
+                tellFortune(event);
+            } else {
+                echoText(event);
+            }
         }
     }
 
@@ -68,6 +75,22 @@ public class BotService {
             parts.add("text", text);
             chatRestTemplate.postForObject("https://slack.com/api/chat.postMessage", parts, String.class);
         }
+    }
+
+    private void tellFortune(SlackEvent event) {
+        postMessage(event.getChannel(), getFortuneMessage());
+    }
+
+    private String getFortuneMessage() {
+        RestTemplate restTemplate = new RestTemplate();
+        LinkedMultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add("user-agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+        headers.add("Accept", "text/plain");
+        HttpEntity<Object> objectHttpEntity = new HttpEntity<>(headers);
+        ResponseEntity<String> exchange =
+                restTemplate.exchange("https://helloacm.com/api/fortune/", HttpMethod.GET, objectHttpEntity, String.class);
+        String substring = exchange.getBody().substring(1, exchange.getBody().length() - 1);
+        return StringEscapeUtils.unescapeJava(substring);
     }
 
 }

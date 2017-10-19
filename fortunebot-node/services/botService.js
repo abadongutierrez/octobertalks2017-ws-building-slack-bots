@@ -11,7 +11,11 @@ module.exports = {
 
     processEvent: function(event) {
         if (localDbService.getBotAuthInfo() && event.type === 'message' && event.text && !this._isEventFromBotUser(event)) {
-        	this._echoText(event);  
+        	if (event.text.indexOf('fortune') !== -1) {
+             this._tellFortune(event);
+            } else {
+              this._echoText(event);  
+            }
         }
     },
 
@@ -29,5 +33,21 @@ module.exports = {
                     console.log(err2);
                 }
             });
-     }
+     },
+
+     _tellFortune: function(event, callback) {
+        superagent
+            .get('https://helloacm.com/api/fortune/')
+            .end(function (err1, res1) {
+                superagent
+                    .post('https://slack.com/api/chat.postMessage')
+                    .send({ token: localDbService.getBotAuthInfo().bot.bot_access_token, channel: event.channel, text: res1.body})
+                    .set('Content-Type', 'application/x-www-form-urlencoded')
+                    .end(function (err2, res2) {
+                        if (err2) {
+                            console.log(err2);
+                        }
+                    });
+            });
+    }
 };

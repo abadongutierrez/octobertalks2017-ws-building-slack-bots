@@ -20,7 +20,11 @@ defmodule Fortunebot.Bot do
   def process_event(%{"type" => "message", "text" => text, "channel" => channel, "user" => user}) do
     bot_auth_info = Fortunebot.LocalDb.get_bot_auth_info
     if bot_auth_info != nil && !bot_user?(bot_auth_info, user) do
-      post_message(bot_auth_info, channel, text)
+      if String.contains?(text, "fortune") do
+        tell_fortune(bot_auth_info, channel)
+      else
+        post_message(bot_auth_info, channel, text)
+      end
     end
     :ok
   end
@@ -39,5 +43,13 @@ defmodule Fortunebot.Bot do
     "https://slack.com/api/chat.postMessage"
     |> HTTPoison.post({:form, [token: bot_auth_info.bot_access_token, channel: channel, text: text]},
                       %{"Content-type" => "application/x-www-form-urlencoded"})
+  end
+
+  defp tell_fortune(bot_auth_info, channel) do
+    fortune_response = "https://helloacm.com/api/fortune/" |> HTTPoison.get
+    case fortune_response do
+      {:ok, %HTTPoison.Response{body: body}} ->
+        post_message(bot_auth_info, channel, Macro.unescape_string(String.slice(body, 1..-2)))
+    end
   end
 end
