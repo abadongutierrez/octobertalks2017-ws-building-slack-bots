@@ -16,4 +16,28 @@ defmodule Fortunebot.Bot do
   end
 
   defp handle_oauth_access_response(error), do: error
+
+  def process_event(%{"type" => "message", "text" => text, "channel" => channel, "user" => user}) do
+    bot_auth_info = Fortunebot.LocalDb.get_bot_auth_info
+    if bot_auth_info != nil && !bot_user?(bot_auth_info, user) do
+      post_message(bot_auth_info, channel, text)
+    end
+    :ok
+  end
+
+  def process_event(_event), do: :ok
+
+  defp bot_user?(bot_auth_info, user) do
+    empty?(user) or bot_auth_info["bot_user_id"] == user
+  end
+
+  defp empty?(string) do
+    string == nil or String.length(string) == 0
+  end
+
+  defp post_message(bot_auth_info, channel, text) do 
+    "https://slack.com/api/chat.postMessage"
+    |> HTTPoison.post({:form, [token: bot_auth_info.bot_access_token, channel: channel, text: text]},
+                      %{"Content-type" => "application/x-www-form-urlencoded"})
+  end
 end

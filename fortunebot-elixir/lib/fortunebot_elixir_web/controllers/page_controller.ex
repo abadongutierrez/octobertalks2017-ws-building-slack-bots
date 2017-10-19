@@ -21,6 +21,9 @@ defmodule FortunebotWeb.PageController do
     return_text = cond do
       params["challenge"] != nil and params["type"] == "url_verification" ->
         params["challenge"]
+      params["event"] ->
+        Fortunebot.Bot.process_event(params["event"])
+        "Ok"
       true ->
         "Ok"
     end

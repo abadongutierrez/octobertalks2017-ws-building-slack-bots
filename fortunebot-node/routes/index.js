@@ -27,6 +27,10 @@ router.post('/slack', function(req, res, next) {
   	return res.send(req.body.challenge);
   }
 
+  if (req.body.event) {
+  	botService.processEvent(req.body.event);
+  }
+
   res.send("Ok");
 });
 

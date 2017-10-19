@@ -6,6 +6,9 @@ import com.nearsoft.slackbot.fortunebot.domain.BotAuthInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -37,6 +40,34 @@ public class BotService {
 
     private BotAuthInfo buildBotAuthInfo(JsonNode botNode) {
         return new BotAuthInfo(botNode.path("bot_user_id").asText(), botNode.path("bot_access_token").asText());
+    }
+
+    public void handleEvent(SlackEvent event) {
+        if (localDbService.getBotAuthInfo() != null &&
+                event.isMessageType() &&
+                !event.isTextEmpty() &&
+                !isEventFromBotUser(event)) {
+            echoText(event);
+        }
+    }
+
+    private boolean isEventFromBotUser(SlackEvent event) {
+        return StringUtils.isEmpty(event.getUser()) || event.getUser().equals(localDbService.getBotAuthInfo().getId());
+    }
+
+    private void echoText(SlackEvent event) {
+        postMessage(event.getChannel(), event.getText());
+    }
+
+    private void postMessage(String channel, String text) {
+        if (localDbService.getBotAuthInfo() != null ) {
+            RestTemplate chatRestTemplate = new RestTemplate();
+            MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
+            parts.add("token", localDbService.getBotAuthInfo().getAccessToken());
+            parts.add("channel", channel);
+            parts.add("text", text);
+            chatRestTemplate.postForObject("https://slack.com/api/chat.postMessage", parts, String.class);
+        }
     }
 
 }
