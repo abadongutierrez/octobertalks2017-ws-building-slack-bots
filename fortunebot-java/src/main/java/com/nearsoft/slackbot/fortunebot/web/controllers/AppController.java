@@ -1,19 +1,16 @@
 package com.nearsoft.slackbot.fortunebot.web.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class AppController {
 
-    @GetMapping("/install")
-    public String install() {
-        return "install";
-    }
+    // TODO: add install method to render "install" view.
+    // TODO: install method should attend "/install" using GET
+    // TIP: use @GetMapping
 
-    @GetMapping("/thanks")
-    public String thanks() {
-        return "thanks";
-    }
+    // TODO: add thanks method to render "thanks" view.
+    // TODO: thanks method should attend "/thanks" using GET
+    // TIP: use @GetMapping
 
 }

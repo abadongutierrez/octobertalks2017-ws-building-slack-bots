@@ -5,16 +5,10 @@ defmodule FortunebotWeb.PageController do
     render conn, "index.html"
   end
 
-  def install(conn, _params) do
-    render conn, "install.html"
-  end
+  # TODO: add install function to render "install.html"
 
-  def thanks(conn, _params) do
-    render conn, "thanks.html"
-  end
+  # TODO: add thanks function to render "thanks.html"
 
-  def slack(conn, _params) do
-    text conn, "Ok"
-  end
+  # TODO: add slack function to render text "Ok"
 
 end

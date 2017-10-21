@@ -8,16 +8,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/install', function(req, res, next) {
-  res.render('install', { title: 'FortuneBot' });
-});
+// TODO: add router.get('/install', ...) to render views/install.pug
 
-router.get('/thanks', function(req, res, next) {
-  res.render('thanks', { title: 'Thanks!'});
-});
+// TODO: add router.get('/thanks', ...) to render views/thanks.pug
 
-router.post('/slack', function(req, res, next) {
-  res.send("Ok");
-});
+// TODO: add router.post('/slack', ...) to render "Ok" text
 
 module.exports = router;

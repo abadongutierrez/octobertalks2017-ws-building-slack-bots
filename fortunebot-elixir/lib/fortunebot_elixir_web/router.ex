@@ -17,9 +17,10 @@ defmodule FortunebotWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    get "/install", PageController, :install
-    get "/thanks", PageController, :thanks
-    post "/slack", PageController, :slack
+
+    # TODO: add mapping GET /install for PageController.install
+    # TODO: add mapping GET /thanks for PageController.thanks
+    # TODO: add mapping POST /slack for PageController.slack
   end
 
   # Other scopes may use custom stacks.
