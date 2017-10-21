@@ -6,7 +6,8 @@ defmodule FortunebotWeb.PageController do
   end
 
   def install(conn, _params) do
-    render conn, "install.html", client_id: System.get_env("CLIENT_ID")
+    # TODO: send 'client_id' in the assigns to be used by the view with the value of the CLIENT_ID environment variable
+    render conn, "install.html"
   end
 
   def thanks(conn, params) do

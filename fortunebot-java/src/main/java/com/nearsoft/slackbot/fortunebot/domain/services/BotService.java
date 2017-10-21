@@ -20,14 +20,15 @@ public class BotService {
 
     public void auth(String code) throws IOException {
         Map<String, String> uriVars = new HashMap<>();
-        uriVars.put("client_id", System.getenv("CLIENT_ID"));
-        uriVars.put("client_secret", System.getenv("CLIENT_SECRET"));
+        // TODO: put in uriVars map "client_id" with the value of the CLIENT_ID environment variable
+        // TODO: put in uriVars map "client_secret" with the value of the CLIENT_SECRET environment variable
         uriVars.put("code", code);
 
+        // TODO: call GET "https://slack.com/api/oauth.access"
+        // TIP: use ResponseEntity<T> getForEntity(String url, Class<T> responseType, Map<String, ?> uriVariables)
+        // TIP: Remember that when sending Query params they go in the format: param={param_value}
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity =
-                restTemplate.getForEntity("https://slack.com/api/oauth.access?" +
-                        "client_id={client_id}&client_secret={client_secret}&code={code}", String.class, uriVars);
+        ResponseEntity<String> responseEntity = null;
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(responseEntity.getBody());

@@ -9,7 +9,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/install', function(req, res, next) {
-  res.render('install', { title: 'FortuneBot', clientId: process.env.CLIENT_ID});
+  // TODO: send 'clientId' as local variable to be used by the view with the value of the CLIENT_ID environment variable
+  res.render('install', { title: 'FortuneBot' });
 });
 
 router.get('/thanks', function(req, res, next) {

@@ -1,10 +1,9 @@
 defmodule Fortunebot.Bot do
 
   def auth(code) do
-    "https://slack.com/api/oauth.access" <> 
-    "?code=#{code}&client_id=#{System.get_env("CLIENT_ID")}&client_secret=#{System.get_env("CLIENT_SECRET")}"
-    |> HTTPoison.get
-    |> handle_oauth_access_response
+    # TODO: call GET "https://slack.com/api/oauth.access"
+    # TIP: Use HTTPoison.get
+    # TIP: You can use handle_oauth_access_response function to handle the response  HTTPoison.get
   end
 
   defp handle_oauth_access_response({:ok, %HTTPoison.Response{body: body}}) do

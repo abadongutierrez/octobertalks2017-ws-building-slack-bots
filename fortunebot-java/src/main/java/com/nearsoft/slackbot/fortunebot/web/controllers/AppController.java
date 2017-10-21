@@ -18,7 +18,7 @@ public class AppController {
 
     @GetMapping("/install")
     public ModelAndView install(Map<String, Object> model) {
-        model.put("client_id", System.getenv("CLIENT_ID"));
+        // TODO: put 'client_id' in the model map with the value of the CLIENT_ID environment variable
         return new ModelAndView("install", model);
     }
 
