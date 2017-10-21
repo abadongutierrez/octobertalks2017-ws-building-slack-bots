@@ -82,13 +82,18 @@ public class BotService {
     }
 
     private String getFortuneMessage() {
-        RestTemplate restTemplate = new RestTemplate();
+
         LinkedMultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add("user-agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
         headers.add("Accept", "text/plain");
         HttpEntity<Object> objectHttpEntity = new HttpEntity<>(headers);
-        ResponseEntity<String> exchange =
-                restTemplate.exchange("https://helloacm.com/api/fortune/", HttpMethod.GET, objectHttpEntity, String.class);
+
+        // TODO: GET https://helloacm.com/api/fortune/ to get the fortune message
+        // TIP: User method exchange(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables)
+        // from RestTemplate.
+        // TIP: Set restult to exchange ResponseEntity
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> exchange = null;
         String substring = exchange.getBody().substring(1, exchange.getBody().length() - 1);
         return StringEscapeUtils.unescapeJava(substring);
     }

@@ -24,30 +24,25 @@ module.exports = {
     },
 
     _echoText: function(event, callback) {
+        this._postMessage(event.channel, event.text);
+     },
+
+     _postMessage: function(channel, text) {
         superagent
             .post('https://slack.com/api/chat.postMessage')
-            .send({ token: localDbService.getBotAuthInfo().bot.bot_access_token, channel: event.channel, text: event.text})
+            .send({ token: localDbService.getBotAuthInfo().bot.bot_access_token, channel: channel, text: text})
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .end(function (err2, res2) {
                 if (err2) {
                     console.log(err2);
                 }
             });
-     },
+     }
 
      _tellFortune: function(event, callback) {
-        superagent
-            .get('https://helloacm.com/api/fortune/')
-            .end(function (err1, res1) {
-                superagent
-                    .post('https://slack.com/api/chat.postMessage')
-                    .send({ token: localDbService.getBotAuthInfo().bot.bot_access_token, channel: event.channel, text: res1.body})
-                    .set('Content-Type', 'application/x-www-form-urlencoded')
-                    .end(function (err2, res2) {
-                        if (err2) {
-                            console.log(err2);
-                        }
-                    });
-            });
+        // TODO: GET https://helloacm.com/api/fortune/ to get the fortune message
+        // TIP: Use superagent.get
+        // TIP: When you get the respone from Fortune API call _postMessage method with event.channel
+        // and the fortune message comes in the response.body
     }
 };

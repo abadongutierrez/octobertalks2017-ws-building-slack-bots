@@ -46,7 +46,10 @@ defmodule Fortunebot.Bot do
   end
 
   defp tell_fortune(bot_auth_info, channel) do
-    fortune_response = "https://helloacm.com/api/fortune/" |> HTTPoison.get
+    # TODO: GET https://helloacm.com/api/fortune/ to get the fortune message
+    # TIP: Use HTTPoison.get
+    # TIP: Set response to fortune_response
+    fortune_response = nil
     case fortune_response do
       {:ok, %HTTPoison.Response{body: body}} ->
         post_message(bot_auth_info, channel, Macro.unescape_string(String.slice(body, 1..-2)))
