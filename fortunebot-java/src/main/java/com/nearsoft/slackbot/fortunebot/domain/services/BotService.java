@@ -52,7 +52,8 @@ public class BotService {
     }
 
     private boolean isEventFromBotUser(SlackEvent event) {
-        return StringUtils.isEmpty(event.getUser()) || event.getUser().equals(localDbService.getBotAuthInfo().getId());
+        // TODO: Validate if the SlackEvent comes from the Bot User
+        return false;
     }
 
     private void echoText(SlackEvent event) {
@@ -62,11 +63,14 @@ public class BotService {
     private void postMessage(String channel, String text) {
         if (localDbService.getBotAuthInfo() != null ) {
             RestTemplate chatRestTemplate = new RestTemplate();
+
             MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
-            parts.add("token", localDbService.getBotAuthInfo().getAccessToken());
-            parts.add("channel", channel);
-            parts.add("text", text);
-            chatRestTemplate.postForObject("https://slack.com/api/chat.postMessage", parts, String.class);
+            // TODO: add "token" to parts Map
+            // TODO: add "channel" to parts Map
+            // TODO: add "text" to parts Map
+
+            // TODO: POST https://slack.com/api/chat.postMessage to echo the Event message in text
+            // TIP: Use method postForObject(String url, Object request, Class<T> responseType, Object... uriVariables) from RestTemplate
         }
     }
 

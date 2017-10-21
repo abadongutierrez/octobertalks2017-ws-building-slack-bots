@@ -28,16 +28,18 @@ defmodule Fortunebot.Bot do
   def process_event(_event), do: :ok
 
   defp bot_user?(bot_auth_info, user) do
-    empty?(user) or bot_auth_info["bot_user_id"] == user
+    #  TODO: Validate if the Slack event comes from the Bot User
+    false
   end
 
   defp empty?(string) do
     string == nil or String.length(string) == 0
   end
 
-  defp post_message(bot_auth_info, channel, text) do 
-    "https://slack.com/api/chat.postMessage"
-    |> HTTPoison.post({:form, [token: bot_auth_info.bot_access_token, channel: channel, text: text]},
-                      %{"Content-type" => "application/x-www-form-urlencoded"})
+  defp post_message(bot_auth_info, channel, text) do
+    # TODO: POST https://slack.com/api/chat.postMessage to echo the Event message in text
+    # TIP: Use HTTPoison.post
+    # TIP: To send form params in HTTPoison.post you have specify a tuple as the second argument like: {:form, <key-value list>}
+    # TIP: Don't forget to specify the Content-Type as application/x-www-form-urlencoded
   end
 end

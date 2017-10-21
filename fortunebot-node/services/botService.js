@@ -19,15 +19,9 @@ module.exports = {
         return !event.user || localDbService.getBotAuthInfo().bot.bot_user_id === event.user;
     },
 
-    _echoText: function(event, callback) {
-        superagent
-            .post('https://slack.com/api/chat.postMessage')
-            .send({ token: localDbService.getBotAuthInfo().bot.bot_access_token, channel: event.channel, text: event.text})
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .end(function (err2, res2) {
-                if (err2) {
-                    console.log(err2);
-                }
-            });
+    _echoText: function(event) {
+        // TODO: POST https://slack.com/api/chat.postMessage to echo the Event message in text
+        // TIP: Use superagent.post
+        // TIP: Don't forget to specify the Content-Type as application/x-www-form-urlencoded
      }
 };
