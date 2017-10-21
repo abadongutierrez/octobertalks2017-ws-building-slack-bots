@@ -17,11 +17,7 @@ public class SlackController {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(body);
 
-        JsonNode challengeNode = root.path("challenge");
-        JsonNode typeNode = root.path("type");
-        if (challengeNode != null && typeNode != null && "url_verification".equals(typeNode.asText())) {
-            return challengeNode.asText();
-        }
+        // TODO: if event in body is a challenge with type=url_verification return the value of the "challenge" attribute
 
         return "Ok";
     }

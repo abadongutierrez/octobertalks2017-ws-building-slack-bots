@@ -18,9 +18,10 @@ defmodule FortunebotWeb.PageController do
   end
 
   def slack(conn, params) do
+    # TODO: if event challenge with type=url_verification return the value of the "challenge" attribute
+    # TIP: remember that you can access the json attributes directly in the params Map, like: params["someAttribute"]
+    # TIP: add another condition to the 'cond' code block
     return_text = cond do
-      params["challenge"] != nil and params["type"] == "url_verification" ->
-        params["challenge"]
       true ->
         "Ok"
     end

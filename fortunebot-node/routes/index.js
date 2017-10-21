@@ -23,9 +23,7 @@ router.get('/thanks', function(req, res, next) {
 });
 
 router.post('/slack', function(req, res, next) {
-  if (req.body.challenge && req.body.type === "url_verification") {
-  	return res.send(req.body.challenge);
-  }
+  // TODO: if event in req.body is a challenge with type=url_verification return the value of the "challenge" attribute
 
   res.send("Ok");
 });
